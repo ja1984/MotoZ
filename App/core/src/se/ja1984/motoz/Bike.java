@@ -19,7 +19,7 @@ public class Bike extends InputAdapter {
 
     private Body chassis, leftWheel, rightWheel;
     private WheelJoint leftAxis, rightAxis;
-    private float motorSpeed = 75;
+    private float motorSpeed = 50;
 
     public Bike(World world, FixtureDef chassisFixtureDef, FixtureDef wheelFixtureDef, float x, float y, float width, float height) {
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("box2d/bike.json"));
@@ -69,7 +69,11 @@ public class Bike extends InputAdapter {
                 break;
             case Input.Keys.DOWN:
                 leftAxis.enableMotor(true);
-                leftAxis.setMotorSpeed(motorSpeed);
+                leftAxis.setMotorSpeed(0);
+
+                rightAxis.enableMotor(true);
+                rightAxis.setMotorSpeed(0);
+                break;
         }
         return true;
     }
@@ -80,6 +84,15 @@ public class Bike extends InputAdapter {
             case Input.Keys.UP:
             case Input.Keys.DOWN:
                 leftAxis.enableMotor(false);
+                rightAxis.enableMotor(false);
+                break;
+            case Input.Keys.LEFT:
+                rightWheel.applyLinearImpulse(1.5f,17.5f,0,0,true);
+                break;
+
+            case Input.Keys.RIGHT:
+                leftWheel.applyLinearImpulse(-.5f, 17.5f, 0, 0, true);
+                break;
         }
         return true;
     }
@@ -88,4 +101,7 @@ public class Bike extends InputAdapter {
         return chassis;
     }
 
+    public void turn() {
+
+    }
 }

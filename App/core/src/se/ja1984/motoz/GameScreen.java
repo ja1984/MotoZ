@@ -94,8 +94,11 @@ public class GameScreen implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 switch(keycode) {
-                    case Input.Keys.SPACE:
+                    case Input.Keys.ENTER:
                         ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                        break;
+                    case Input.Keys.SPACE:
+                        bike.turn();
                         break;
                 }
                 return false;

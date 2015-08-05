@@ -3,6 +3,8 @@ package se.ja1984.motoz;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,6 +23,8 @@ public class Bike extends InputAdapter {
     private WheelJoint leftAxis, rightAxis;
     private float motorSpeed = 50;
     private boolean flipped;
+    public Sprite sprite;
+    private Texture texture;
 
     public Bike(World world, FixtureDef chassisFixtureDef, FixtureDef wheelFixtureDef, float x, float y, float width, float height) {
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("box2d/bike.json"));
@@ -28,7 +32,14 @@ public class Bike extends InputAdapter {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
 
+        texture = new Texture("box2d/bike.png");
+        sprite = new Sprite(texture);
+
+
+
         chassis = world.createBody(bodyDef);
+
+        chassis.setUserData(sprite);
 
         // left wheel
         CircleShape wheelShape = new CircleShape();
@@ -111,5 +122,6 @@ public class Bike extends InputAdapter {
 
     public void turn() {
         flipped = !flipped;
+        sprite.flip(true,false);
     }
 }

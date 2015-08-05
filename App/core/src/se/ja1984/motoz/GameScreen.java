@@ -31,6 +31,7 @@ public class GameScreen implements Screen {
 
     private final float TIMESTEP = 1 / 60f;
     private final int VELOCITYITERATIONS = 8, POSITIONITERATIONS = 3;
+    private final float pixels_to_meter = 250f;
 
     private Bike bike;
 
@@ -48,12 +49,14 @@ public class GameScreen implements Screen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        batch.enableBlending();
         world.getBodies(tmpBodies);
         for(Body body : tmpBodies)
             if(body.getUserData() instanceof Sprite) {
                 Sprite sprite = (Sprite) body.getUserData();
                 sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
                 sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
+                sprite.setScale(1f / pixels_to_meter);
                 sprite.draw(batch);
             }
         batch.end();

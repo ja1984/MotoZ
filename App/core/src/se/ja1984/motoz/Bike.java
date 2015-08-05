@@ -23,8 +23,9 @@ public class Bike extends InputAdapter {
     private WheelJoint leftAxis, rightAxis;
     private float motorSpeed = 50;
     private boolean flipped;
-    public Sprite sprite;
-    private Texture texture;
+
+    public Sprite chassiSprite;
+    public Sprite wheel;
 
     public Bike(World world, FixtureDef chassisFixtureDef, FixtureDef wheelFixtureDef, float x, float y, float width, float height) {
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("box2d/bike.json"));
@@ -32,14 +33,14 @@ public class Bike extends InputAdapter {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
 
-        texture = new Texture("box2d/bike.png");
-        sprite = new Sprite(texture);
+        chassiSprite = new Sprite(new Texture("box2d/bike.png"));
+        wheel = new Sprite(new Texture("box2d/wheel.png"));
 
 
 
         chassis = world.createBody(bodyDef);
 
-        chassis.setUserData(sprite);
+        chassis.setUserData(chassiSprite);
 
         // left wheel
         CircleShape wheelShape = new CircleShape();
@@ -49,10 +50,13 @@ public class Bike extends InputAdapter {
 
         leftWheel = world.createBody(bodyDef);
         leftWheel.createFixture(wheelFixtureDef);
+        leftWheel.setUserData(wheel);
+
 
         // right wheel
         rightWheel = world.createBody(bodyDef);
         rightWheel.createFixture(wheelFixtureDef);
+        rightWheel.setUserData(wheel);
 
         // left axis
         WheelJointDef axisDef = new WheelJointDef();
@@ -122,6 +126,6 @@ public class Bike extends InputAdapter {
 
     public void turn() {
         flipped = !flipped;
-        sprite.flip(true,false);
+        chassiSprite.flip(true,false);
     }
 }

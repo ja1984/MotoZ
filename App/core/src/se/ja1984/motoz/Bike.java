@@ -28,7 +28,7 @@ public class Bike extends InputAdapter {
     public Sprite wheel;
 
     public Bike(World world, FixtureDef chassisFixtureDef, FixtureDef wheelFixtureDef, float x, float y, float width, float height) {
-        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("box2d/bike.json"));
+        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("box2d/bike2.json"));
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
@@ -37,10 +37,6 @@ public class Bike extends InputAdapter {
         wheel = new Sprite(new Texture("box2d/wheel.png"));
 
 
-
-        chassis = world.createBody(bodyDef);
-
-        chassis.setUserData(chassiSprite);
 
         // left wheel
         CircleShape wheelShape = new CircleShape();
@@ -58,11 +54,14 @@ public class Bike extends InputAdapter {
         rightWheel.createFixture(wheelFixtureDef);
         rightWheel.setUserData(wheel);
 
+        chassis = world.createBody(bodyDef);
+        chassis.setUserData(chassiSprite);
+
         // left axis
         WheelJointDef axisDef = new WheelJointDef();
         axisDef.bodyA = chassis;
         axisDef.bodyB = leftWheel;
-        axisDef.localAnchorA.set(-width / 2 * .75f + wheelShape.getRadius(), -height / 2 * 1.25f);
+        axisDef.localAnchorA.set(-width / 2 * 1.025f + wheelShape.getRadius(), -height / 2 * 1.15f);
         axisDef.frequencyHz = chassisFixtureDef.density;
         axisDef.localAxisA.set(Vector2.Y);
         axisDef.maxMotorTorque = chassisFixtureDef.density * 10;
@@ -73,6 +72,7 @@ public class Bike extends InputAdapter {
         axisDef.localAnchorA.x *= -1;
 
         rightAxis = (WheelJoint) world.createJoint(axisDef);
+
         loader.attachFixture(chassis, "bike", chassisFixtureDef, width);
     }
 

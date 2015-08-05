@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
 
     private final float TIMESTEP = 1 / 60f;
     private final int VELOCITYITERATIONS = 8, POSITIONITERATIONS = 3;
-    private final float pixels_to_meter = 250f;
+    private final float pixels_to_meter = 225f;
 
     private Bike bike;
 
